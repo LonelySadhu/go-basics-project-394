@@ -57,6 +57,9 @@ func CheckPassword(password string) string {
 	if strings.ContainsAny(password, special) {
 		estimate++
 	}
+	if estimate < 0 {
+		estimate = 0
+	}
 
 	answer := fmt.Sprintf("пароль (оценка %d из 5)", estimate)
 	switch {
