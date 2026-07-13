@@ -5,7 +5,11 @@ const uppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 const digits = "0123456789"
 const special = "!@#$%^&*"
 
-func GeneratePassword(length int, useUppercase, useDigits, useSpecial bool) string {
+func NextRandom(number int) int {
+	return (16807 * number) % 2147483647
+}
+
+func GeneratePassword(length, seed int, useUppercase, useDigits, useSpecial bool) string {
 	alphabet := lowercase
 	if useUppercase {
 		alphabet += uppercase
@@ -18,8 +22,10 @@ func GeneratePassword(length int, useUppercase, useDigits, useSpecial bool) stri
 	}
 	len := len(alphabet)
 	result := ""
+
 	for i := 0; i < length; i++ {
-		index := i % len
+		current := NextRandom(seed)
+		index := current % len
 		result = result + string(alphabet[index])
 	}
 	return result
