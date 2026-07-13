@@ -10,6 +10,9 @@ func NextRandom(number int) int {
 }
 
 func GeneratePassword(length, seed int, useUppercase, useDigits, useSpecial bool) string {
+	if length <= 0 {
+		return ""
+	}
 	alphabet := lowercase
 	if useUppercase {
 		alphabet += uppercase
@@ -23,8 +26,9 @@ func GeneratePassword(length, seed int, useUppercase, useDigits, useSpecial bool
 	len := len(alphabet)
 	result := ""
 
+	current := seed
 	for i := 0; i < length; i++ {
-		current := NextRandom(seed)
+		current = NextRandom(current)
 		index := current % len
 		result = result + string(alphabet[index])
 	}
