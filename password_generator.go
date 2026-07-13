@@ -67,8 +67,8 @@ func CheckPassword(password string) string {
 	case estimate == 3:
 		return "Средний " + answer
 	case estimate == 4:
-		return "Надежный " + answer
+		return "Надёжный " + answer
 	default:
-		return "Очень надежный " + answer
+		return "Очень надёжный " + answer
 	}
 }
