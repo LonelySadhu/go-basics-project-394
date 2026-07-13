@@ -42,50 +42,33 @@ func GeneratePassword(length, seed int, useUppercase, useDigits, useSpecial bool
 
 func CheckPassword(password string) string {
 	estimate := 0
-	if len(password) == 0 {
-		return ""
-	}
-	for _, s := range lowercase {
-		if strings.ContainsRune(password, s) {
-			estimate = 2
-			break
-		}
+	if strings.ContainsAny(password, lowercase) {
+		estimate = 2
 	}
 	if len(password) <= 3 {
 		estimate -= 1
 	}
+	if strings.ContainsAny(password, digits) {
+		estimate++
+	}
+	if strings.ContainsAny(password, uppercase) {
+		estimate++
+	}
+	if strings.ContainsAny(password, special) {
+		estimate++
+	}
 
-	for _, s := range digits {
-		if strings.ContainsRune(password, s) {
-			estimate += 1
-			break
-		}
-	}
-	for _, s := range uppercase {
-		if strings.ContainsRune(password, s) {
-			estimate += 1
-			break
-		}
-	}
-	for _, s := range special {
-		if strings.ContainsRune(password, s) {
-			estimate += 1
-			break
-		}
-	}
 	answer := fmt.Sprintf("пароль (оценка %d из 5)", estimate)
-	switch estimate {
-	case 1:
+	switch {
+	case estimate <= 1:
 		return "Слабый " + answer
-	case 2:
+	case estimate == 2:
 		return "Слабый " + answer
-	case 3:
+	case estimate == 3:
 		return "Средний " + answer
-	case 4:
+	case estimate == 4:
 		return "Надежный " + answer
-	case 5:
-		return "Очень надежный " + answer
 	default:
-		return ""
+		return "Очень надежный " + answer
 	}
 }
